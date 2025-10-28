@@ -1,0 +1,181 @@
+# game variables
+world: 'Lighthouse'
+spawn-area:
+  x: 0.5
+  y: 118
+  z: 0.5
+  yaw: -90
+  pitch: 0
+max-players: 8
+min-players: 2
+countdown-seconds: 20
+team-gen-cooldown: 2
+diamond-cooldown: 15
+emerald-cooldown: 30
+build-limit: 90
+respawn-time: 5
+# generator locations
+diamond:
+  0:
+    x: -48.5
+    y: 67
+    z: -51.5
+  1:
+    x: 55.5
+    y: 67
+    z: -51.5
+  2:
+    x: 55.5
+    y: 67
+    z: 52.5
+  3:
+    x: -48.5
+    y: 67
+    z: 52.5
+emerald:
+  0:
+    x: 3.5
+    y: 87
+    z: 7.5
+  1:
+    x: 3.5
+    y: 87
+    z: -6.5
+# team spawn locations
+teams:
+  red:
+    color: '&c'
+    generator:
+      x: -22.5
+      y: 64.5
+      z: -90.5
+    shop:
+      x: -16.5
+      y: 65
+      z: -88
+      yaw: 90
+      pitch: 0
+    x: -22.5
+    y: 65
+    z: -87.5
+    yaw: 0
+    pitch: 0
+  blue:
+    color: '&1'
+    generator:
+      x: 29.5
+      y: 64.5
+      z: -90.5
+    shop:
+      x: 35.5
+      y: 65
+      z: -88
+      yaw: 90
+      pitch: 0
+    x: 29.5
+    y: 65
+    z: -87.5
+    yaw: 0
+    pitch: 0
+  lime:
+    color: '&a'
+    generator:
+      x: 94.5
+      y: 64.5
+      z: -25.5
+    shop:
+      x: 92
+      y: 65
+      z: -19.5
+      yaw: -180
+      pitch: 0
+    x: 91.5
+    y: 65
+    z: -25.5
+    yaw: 90
+    pitch: 0
+  yellow:
+    color: '&e'
+    generator:
+      x: 94.5
+      y: 64.5
+      z: 26.5
+    shop:
+      x: 92
+      y: 65
+      z: 32.5
+      yaw: -180
+      pitch: 0
+    x: 91.5
+    y: 65
+    z: 26.5
+    yaw: 90
+    pitch: 0
+  cyan:
+    color: '&3'
+    generator:
+      x: 29.5
+      y: 64.5
+      z: 91.5
+    shop:
+      x: 23.5
+      y: 65
+      z: 89
+      yaw: -90
+      pitch: 0
+    x: 29.5
+    y: 65
+    z: 88.5
+    yaw: 180
+    pitch: 0
+  white:
+    color: '&f'
+    generator:
+      x: -22.5
+      y: 64.5
+      z: 91.5
+    shop:
+      x: -28.5
+      y: 65
+      z: 89
+      yaw: -90
+      pitch: 0
+    x: -22.5
+    y: 65
+    z: 88.5
+    yaw: 180
+    pitch: 0
+  pink:
+    color: '&d'
+    generator:
+      x: -87.5
+      y: 64.5
+      z: 26.5
+    shop:
+      x: -85
+      y: 65
+      z: 20.5
+      yaw: 0
+      pitch: 0
+    x: -84.5
+    y: 65
+    z: 26.5
+    yaw: -90
+    pitch: 0
+  gray:
+    color: '&8'
+    generator:
+      x: -87.5
+      y: 64.5
+      z: -25.5
+    shop:
+      x: -85
+      y: 65
+      z: -31.5
+      yaw: 0
+      pitch: 0
+    x: -84.5
+    y: 65
+    z: -25.5
+    yaw: -90
+    pitch: 0

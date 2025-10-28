@@ -1,0 +1,377 @@
+quick-buy:
+  0:
+    material: "WHITE_WOOL"
+    name: "&cWool"
+    cost: 4
+    currency: "IRON_INGOT"
+    amount: 16
+    lore:
+      - "&7Cost: &f4 Iron"
+      - "\n"
+      - "&7Great for bridging across islands."
+      - "&7Turns into your team's color."
+  1:
+    material: "STONE_SWORD"
+    name: "&cStone Sword"
+    cost: 10
+    currency: "IRON_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &f10 Iron"
+  2:
+    material: "CHAINMAIL_BOOTS"
+    name: "&cChainmail Armor"
+    cost: 12
+    currency: "IRON_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &f12 Iron"
+  3:
+    material: "LADDER"
+    name: "&cLadder"
+    cost: 4
+    currency: "IRON_INGOT"
+    amount: 8
+    lore:
+      - "&7Cost: &f4 Iron"
+      - "\n"
+      - "&7Useful to save cats stuck in trees."
+  4:
+    material: "BOW"
+    name: "&cBow"
+    cost: 5
+    currency: "GOLD_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &65 Gold"
+  5:
+    material: "TNT"
+    name: "&cTNT"
+    cost: 4
+    currency: "GOLD_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &64 Gold"
+  6:
+    material: "FIRE_CHARGE"
+    name: "&cFireball"
+    cost: 40
+    currency: "IRON_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &f40 Iron"
+  7:
+    material: "OAK_PLANKS"
+    name: "&cWooden Planks"
+    cost: 4
+    currency: "GOLD_INGOT"
+    amount: 16
+    lore:
+      - "&7Cost: &64 Gold"
+      - "\n"
+      - "&7Good block to defend your bed."
+      - "&7Strong against pickaxes."
+  8:
+    material: "IRON_SWORD"
+    name: "&cIron Sword"
+    cost: 7
+    currency: "GOLD_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &67 Gold"
+  9:
+    material: "IRON_BOOTS"
+    name: "&cIron Armor"
+    cost: 12
+    currency: "GOLD_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &612 Gold"
+  10:
+    material: "SHEARS"
+    name: "&cShears"
+    cost: 10
+    currency: "IRON_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &f10 Iron"
+  11:
+    material: "ARROW"
+    name: "&cArrow"
+    cost: 4
+    currency: "GOLD_INGOT"
+    amount: 6
+    lore:
+      - "&7Cost: &64 Gold"
+  12:
+    material: "POTION"
+    name: "&cInvisibility Potion"
+    cost: 3
+    currency: "EMERALD"
+    amount: 1
+    lore:
+      - "&7Cost: &23 Emerald"
+  13:
+    material: "WATER_BUCKET"
+    name: "&cWater Bucket"
+    cost: 8
+    currency: "GOLD_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &68 Gold"
+  14:
+    material: "GOLDEN_APPLE"
+    name: "&cGolden Apple"
+    cost: 4
+    currency: "GOLD_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &64 Gold"
+  15:
+    material: "WOODEN_PICKAXE"
+    name: "&cWood Pickaxe"
+    cost: 10
+    currency: "IRON_INGOT"
+    amount: 1
+    enchantments:
+      EFFICIENCY: 1
+    lore:
+      - "&7Cost: &f10 Iron"
+  16:
+    material: "WOODEN_AXE"
+    name: "&cWood axe"
+    cost: 10
+    currency: "IRON_INGOT"
+    amount: 1
+    enchantments:
+      EFFICIENCY: 1
+    lore:
+      - "&7Cost: &f10 Iron"
+  17:
+    material: "ENDER_PEARL"
+    name: "&cEnder Pearl"
+    cost: 2
+    currency: "EMERALD"
+    amount: 1
+    lore:
+      - "&7Cost: &22 Emerald"
+  18:
+    material: "CHEST"
+    name: "&cCompact Pop-up tower"
+    cost: 24
+    currency: "IRON_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &f24 Iron"
+  19:
+    material: "EGG"
+    name: "&cBridge Egg"
+    cost: 1
+    currency: "EMERALD"
+    amount: 1
+    lore:
+      - "&7Cost: &21 Emerald"
+
+blocks:
+  0:
+    material: "WHITE_WOOL"
+    name: "&cWool"
+    cost: 4
+    currency: "IRON_INGOT"
+    amount: 16
+    lore:
+      - "&7Cost: &f4 Iron"
+      - "\n"
+      - "&7Great for bridging across islands."
+      - "&7Turns into your team's color."
+  1:
+    material: "TERRACOTTA"
+    name: "&cHardened Clay"
+    cost: 12
+    currency: "IRON_INGOT"
+    amount: 16
+    lore:
+      - "&7Cost: &f12 Iron"
+      - "\n"
+      - "&7Basic block to defend your bed."
+  2:
+    material: "GLASS"
+    name: "&cBlast-Proof Glass"
+    cost: 12
+    currency: "IRON_INGOT"
+    amount: 4
+    lore:
+      - "&7Cost: &f12 Iron"
+      - "\n"
+      - "&7Immune to explosions."
+  3:
+    material: "END_STONE"
+    name: "&cEnd Stone"
+    cost: 24
+    currency: "IRON_INGOT"
+    amount: 12
+    lore:
+      - "&7Cost: &f24 Iron"
+      - "\n"
+      - "&7Solid block to defend your bed."
+  4:
+    material: "LADDER"
+    name: "&cLadder"
+    cost: 4
+    currency: "IRON_INGOT"
+    amount: 8
+    lore:
+      - "&7Cost: &f4 Iron"
+      - "\n"
+      - "&7Useful to save cats stuck in trees."
+  5:
+    material: "OAK_PLANKS"
+    name: "&cWooden Planks"
+    cost: 4
+    currency: "GOLD_INGOT"
+    amount: 16
+    lore:
+      - "&7Cost: &64 Gold"
+      - "\n"
+      - "&7Good block to defend your bed."
+      - "&7Strong against pickaxes."
+  6:
+    material: "OBSIDIAN"
+    name: "&cObsidian"
+    cost: 4
+    currency: "EMERALD"
+    amount: 2
+    lore:
+      - "&7Cost: &24 Emerald"
+
+weapons:
+  0:
+    material: "STONE_SWORD"
+    name: "&cStone Sword"
+    cost: 10
+    currency: "IRON_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &f10 Iron"
+  1:
+    material: "IRON_SWORD"
+    name: "&cIron Sword"
+    cost: 7
+    currency: "GOLD_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &67 Gold"
+  2:
+    material: "DIAMOND_SWORD"
+    name: "&cDiamond Sword"
+    cost: 4
+    currency: "EMERALD"
+    amount: 1
+    lore:
+      - "&7Cost: &24 Emeralds"
+  3:
+    material: "STICK"
+    name: "&cStick (Knockback I)"
+    cost: 5
+    currency: "GOLD_INGOT"
+    amount: 1
+    enchantments:
+      KNOCKBACK: 1
+    lore:
+      - "&7Cost: &67 Gold"
+
+armor:
+  0:
+    material: "CHAINMAIL_BOOTS"
+    name: "&cChainmail Armor"
+    cost: 12
+    currency: "IRON_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &f12 Iron"
+  1:
+    material: "IRON_BOOTS"
+    name: "&cIron Armor"
+    cost: 12
+    currency: "GOLD_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &612 Gold"
+  2:
+    material: "DIAMOND_BOOTS"
+    name: "&cDiamond Armor"
+    cost: 6
+    currency: "EMERALD"
+    amount: 1
+    lore:
+      - "&7Cost: &26 Emeralds"
+
+tools:
+  0:
+    material: "SHEARS"
+    name: "&cShears"
+    cost: 10
+    currency: "IRON_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &f10 Iron"
+  1:
+    material: "WOODEN_PICKAXE"
+    name: "&cWood Pickaxe"
+    cost: 10
+    currency: "IRON_INGOT"
+    amount: 1
+    enchantments:
+      EFFICIENCY: 1
+    lore:
+      - "&7Cost: &f10 Iron"
+  2:
+    material: "WOODEN_AXE"
+    name: "&cWood Axe"
+    cost: 10
+    currency: "IRON_INGOT"
+    amount: 1
+    enchantments:
+      EFFICIENCY: 1
+    lore:
+      - "&7Cost: &f10 Iron"
+  3:
+    material: "STONE_PICKAXE"
+    name: "&cStone Pickaxe"
+    cost: 10
+    currency: "GOLD_INGOT"
+    amount: 1
+    enchantments:
+      EFFICIENCY: 1
+    lore:
+      - "&7Cost: &610 Gold"
+  4:
+    material: "STONE_AXE"
+    name: "&cStone Axe"
+    cost: 10
+    currency: "GOLD_INGOT"
+    amount: 1
+    enchantments:
+      EFFICIENCY: 1
+    lore:
+      - "&7Cost: &610 Gold"
+  5:
+    material: "IRON_PICKAXE"
+    name: "&cIron Pickaxe"
+    cost: 6
+    currency: "DIAMOND"
+    amount: 1
+    enchantments:
+      EFFICIENCY: 3
+    lore:
+      - "&7Cost: &b6 Diamond"
+  6:
+    material: "DIAMOND_PICKAXE"
+    name: "&cDiamond Pickaxe"
+    cost: 2
+    currency: "EMERALD"
+    amount: 1
+    enchantments:
+      EFFICIENCY: 3
+    lore:
+      - "&7Cost: &22 Emerald"
