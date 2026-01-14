@@ -117,7 +117,7 @@ public class ItemListener implements Listener {
             for (Block block : e.blockList()) {
                 if (block.getWorld().getBlockAt(block.getLocation()).hasMetadata("bedwars")) {
                     if (block.getType() != Material.GLASS) {
-                        block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getType()));
+                        if (block.getType() != Material.AIR) block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getType()));
                         block.getWorld().getBlockAt(block.getLocation()).setType(Material.AIR);
                     }
                 }
@@ -144,6 +144,7 @@ public class ItemListener implements Listener {
         makeTower(e, Material.valueOf(main.getGame().getLiveGame().getTeam(e.getPlayer()).toUpperCase() + "_WOOL"));
     }
 
+    // animated the tower build animation
     private void makeTower(BlockPlaceEvent e, Material m) {
         if (e.getBlock().getType() != Material.CHEST) return;
         if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.CHEST) return;
@@ -152,49 +153,26 @@ public class ItemListener implements Listener {
         e.setCancelled(true);
         e.getPlayer().getInventory().removeItem(ShopData.getTower());
 
-        Location loc = e.getBlock().getLocation();
-        Location copy;
+        Location loc;
         int[] num = {2, -2};
         int[] num2 = {-1, 0, 1};
 
-        BlockFace dir = BlockFace.SOUTH;
-        switch (e.getPlayer().getFacing()) {
-            case NORTH:
-                dir = BlockFace.SOUTH;
-                break;
-            case SOUTH:
-                dir = BlockFace.NORTH;
-                break;
-            case EAST:
-                dir = BlockFace.WEST;
-                break;
-            case WEST:
-                dir = BlockFace.EAST;
-                break;
-        }
+        BlockFace playerDir = e.getPlayer().getFacing();
+        BlockFace dir = playerDir.getOppositeFace();
 
         int lock = 0, lock2 = 0;
+        List<Location> locations = new ArrayList<>();
+        List<Location> ladders = new ArrayList<>();
 
-        if (e.getPlayer().getFacing() == BlockFace.WEST) {
+        if (playerDir == BlockFace.WEST) {
             for (int h : num) {
                 for (int i : num2) {
                     for (int j = 0; j < 5; j++) {
                         loc = e.getBlock().getLocation().add(h, j, i);
                         if (loc.getWorld().getBlockAt(loc).getType() == Material.AIR) {
-                            if (lock > 1 || i != 0) {
-                                loc.getWorld().getBlockAt(loc).setType(m);
-                                loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                                loc.getWorld().playSound(loc, Sound.BLOCK_STONE_STEP, 10f, 1f);
-                            }
-
-                            if (i == 0 && lock2 == 1) {
-                                Location copy2 = loc.add((h > 0 ? -1 : 1), 0, 0);
-                                loc.getWorld().getBlockAt(copy2).setType(Material.LADDER);
-                                Ladder data = (Ladder) loc.getWorld().getBlockAt(copy2).getBlockData();
-                                data.setFacing(dir);
-                                loc.getWorld().getBlockAt(copy2).setBlockData(data);
-                                loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                            }
+                            if (lock > 1 || i != 0) locations.add(loc);
+                            // ladders
+                            if (i == 0 && lock2 == 1) ladders.add(loc.add((h > 0 ? -1 : 1), 0, 0));
                         }
 
                         if (i == 0)
@@ -208,16 +186,11 @@ public class ItemListener implements Listener {
                 for (int i : num2) {
                     for (int j = 0; j < 5; j++) {
                         loc = e.getBlock().getLocation();
-                        copy = loc.clone();
-                        if (loc.getWorld().getBlockAt(loc.add(i, j, h)).getType() == Material.AIR) {
-                            loc.getWorld().getBlockAt(copy.add(i, j, h)).setType(m);
-                            loc.getWorld().playSound(loc, Sound.BLOCK_STONE_STEP, 10f, 1f);
-                            loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                        }
+                        if (loc.getWorld().getBlockAt(loc.clone().add(i, j, h)).getType() == Material.AIR) locations.add(loc.clone().add(i, j, h));
                     }
                 }
             }
-        } else if (e.getPlayer().getFacing() == BlockFace.EAST) {
+        } else if (playerDir == BlockFace.EAST) {
             num = new int[]{-2, 2};
             num2 = new int[]{-1, 0, 1};
 
@@ -226,20 +199,8 @@ public class ItemListener implements Listener {
                     for (int j = 0; j < 5; j++) {
                         loc = e.getBlock().getLocation().add(h, j, i);
                         if (loc.getWorld().getBlockAt(loc).getType() == Material.AIR) {
-                            if (lock > 1 || i != 0) {
-                                loc.getWorld().getBlockAt(loc).setType(m);
-                                loc.getWorld().playSound(loc, Sound.BLOCK_STONE_STEP, 10f, 1f);
-                                loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                            }
-
-                            if (i == 0 && lock2 == 1) {
-                                Location copy2 = loc.add((h > 0 ? -1 : 1), 0, 0);
-                                loc.getWorld().getBlockAt(copy2).setType(Material.LADDER);
-                                Ladder data = (Ladder) loc.getWorld().getBlockAt(copy2).getBlockData();
-                                data.setFacing(dir);
-                                loc.getWorld().getBlockAt(copy2).setBlockData(data);
-                                loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                            }
+                            if (lock > 1 || i != 0) locations.add(loc);
+                            if (i == 0 && lock2 == 1) ladders.add(loc.add((h > 0 ? -1 : 1), 0, 0));
                         }
 
                         if (i == 0)
@@ -253,16 +214,11 @@ public class ItemListener implements Listener {
                 for (int i : num2) {
                     for (int j = 0; j < 5; j++) {
                         loc = e.getBlock().getLocation();
-                        copy = loc.clone();
-                        if (loc.getWorld().getBlockAt(loc.add(i, j, h)).getType() == Material.AIR) {
-                            loc.getWorld().getBlockAt(copy.add(i, j, h)).setType(m);
-                            loc.getWorld().playSound(loc, Sound.BLOCK_STONE_STEP, 10f, 1f);
-                            loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                        }
+                        if (loc.getWorld().getBlockAt(loc.clone().add(i, j, h)).getType() == Material.AIR) locations.add(loc.clone().add(i, j, h));
                     }
                 }
             }
-        } else if (e.getPlayer().getFacing() == BlockFace.NORTH) {
+        } else if (playerDir == BlockFace.NORTH) {
             num = new int[]{2, -2};
             num2 = new int[]{-1, 0, 1};
 
@@ -271,20 +227,8 @@ public class ItemListener implements Listener {
                     for (int j = 0; j < 5; j++) {
                         loc = e.getBlock().getLocation().add(i, j, h);
                         if (loc.getWorld().getBlockAt(loc).getType() == Material.AIR) {
-                            if (lock > 1 || i != 0) {
-                                loc.getWorld().getBlockAt(loc).setType(m);
-                                loc.getWorld().playSound(loc, Sound.BLOCK_STONE_STEP, 10f, 1f);
-                                loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                            }
-
-                            if (i == 0 && lock2 == 1) {
-                                Location copy2 = loc.add(0, 0, (h > 0 ? -1 : 1));
-                                loc.getWorld().getBlockAt(copy2).setType(Material.LADDER);
-                                Ladder data = (Ladder) loc.getWorld().getBlockAt(copy2).getBlockData();
-                                data.setFacing(dir);
-                                loc.getWorld().getBlockAt(copy2).setBlockData(data);
-                                loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                            }
+                            if (lock > 1 || i != 0) locations.add(loc);
+                            if (i == 0 && lock2 == 1) ladders.add(loc.add(0, 0, (h > 0 ? -1 : 1)));
                         }
 
                         if (i == 0)
@@ -298,16 +242,11 @@ public class ItemListener implements Listener {
                 for (int i : num2) {
                     for (int j = 0; j < 5; j++) {
                         loc = e.getBlock().getLocation();
-                        copy = loc.clone();
-                        if (loc.getWorld().getBlockAt(loc.add(h, j, i)).getType() == Material.AIR) {
-                            loc.getWorld().getBlockAt(copy.add(h, j, i)).setType(m);
-                            loc.getWorld().playSound(loc, Sound.BLOCK_STONE_STEP, 10f, 1f);
-                            loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                        }
+                        if (loc.getWorld().getBlockAt(loc.clone().add(h, j, i)).getType() == Material.AIR) locations.add(loc.clone().add(h, j, i));
                     }
                 }
             }
-        } else if (e.getPlayer().getFacing() == BlockFace.SOUTH) {
+        } else if (playerDir == BlockFace.SOUTH) {
             num = new int[]{-2, 2};
             num2 = new int[]{-1, 0, 1};
 
@@ -316,20 +255,8 @@ public class ItemListener implements Listener {
                     for (int j = 0; j < 5; j++) {
                         loc = e.getBlock().getLocation().add(i, j, h);
                         if (loc.getWorld().getBlockAt(loc).getType() == Material.AIR) {
-                            if (lock > 1 || i != 0) {
-                                loc.getWorld().getBlockAt(loc).setType(m);
-                                loc.getWorld().playSound(loc, Sound.BLOCK_STONE_STEP, 10f, 1f);
-                                loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                            }
-
-                            if (i == 0 && lock2 == 1) {
-                                Location copy2 = loc.add(0, 0, (h > 0 ? -1 : 1));
-                                loc.getWorld().getBlockAt(copy2).setType(Material.LADDER);
-                                Ladder data = (Ladder) loc.getWorld().getBlockAt(copy2).getBlockData();
-                                data.setFacing(dir);
-                                loc.getWorld().getBlockAt(copy2).setBlockData(data);
-                                loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                            }
+                            if (lock > 1 || i != 0) locations.add(loc);
+                            if (i == 0 && lock2 == 1) ladders.add(loc.add(0, 0, (h > 0 ? -1 : 1)));
                         }
 
                         if (i == 0)
@@ -343,82 +270,78 @@ public class ItemListener implements Listener {
                 for (int i : num2) {
                     for (int j = 0; j < 5; j++) {
                         loc = e.getBlock().getLocation();
-                        copy = loc.clone();
-                        if (loc.getWorld().getBlockAt(loc.add(h, j, i)).getType() == Material.AIR) {
-                            loc.getWorld().getBlockAt(copy.add(h, j, i)).setType(m);
-                            loc.getWorld().playSound(loc, Sound.BLOCK_STONE_STEP, 10f, 1f);
-                            loc.getWorld().getBlockAt(loc).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                        }
+                        if (loc.getWorld().getBlockAt(loc.clone().add(h, j, i)).getType() == Material.AIR) locations.add(loc.clone().add(h, j, i));
                     }
                 }
             }
         }
 
         loc = e.getBlock().getLocation();
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                if (loc.clone().add(i, 4, j).getBlock().getType() == Material.AIR) {
-                    loc.clone().add(i, 4, j).getBlock().setType(m);
-                    loc.clone().add(i, 4, j).getBlock().setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
+        for (int i : new int[]{-1, 0, 1})
+            for (int j : new int[]{-1, 0, 1})
+                if (loc.clone().add(i, 4, j).getBlock().getType() == Material.AIR) locations.add(loc.clone().add(i, 4, j));
+
+        for (int j : new int[]{-1, 0, 1}) {
+            if (loc.clone().add(3, 5, j).getBlock().getType() == Material.AIR) locations.add(loc.clone().add(3, 5, j));
+            if (loc.clone().add(-3, 5, j).getBlock().getType() == Material.AIR) locations.add(loc.clone().add(-3, 5, j));
+            if (loc.clone().add(j, 5, 3).getBlock().getType() == Material.AIR) locations.add(loc.clone().add(j, 5, 3));
+            if (loc.clone().add(j, 5, -3).getBlock().getType() == Material.AIR) locations.add(loc.clone().add(j, 5, -3));
+        }
+
+        for (int i : new int[] {-2, 2})
+            for (int j : new int[] {-2, 2})
+                for (int k : new int[]{-1, 0, 1})
+                    if (loc.clone().add(i, 5 + k, j).getBlock().getType() == Material.AIR) locations.add(loc.clone().add(i, 5 + k, j));
+
+        for (int i : new int[]{-3, 3}) {
+            for (int j : new int[]{-1, 1}) {
+                for (int k : new int[]{-1, 0, 1}) {
+                    if (loc.clone().add(j, 5 + k, i).getBlock().getType() == Material.AIR) locations.add(loc.clone().add(j, 5 + k, i));
+                    if (loc.clone().add(i, 5 + k, j).getBlock().getType() == Material.AIR) locations.add(loc.clone().add(i, 5 + k, j));
                 }
             }
         }
 
-        for (int j = -1; j < 2; j++) {
-            if (loc.clone().add(3, 5, j).getBlock().getType() == Material.AIR) {
-                loc.clone().add(3, 5, j).getBlock().setType(m);
-                loc.clone().add(3, 5, j).getBlock().setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-            }
-        }
-        for (int j = -1; j < 2; j++) {
-            if (loc.clone().add(-3, 5, j).getBlock().getType() == Material.AIR) {
-                loc.clone().add(-3, 5, j).getBlock().setType(m);
-                loc.clone().add(-3, 5, j).getBlock().setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-            }
-        }
-        for (int j = -1; j < 2; j++) {
-            if (loc.clone().add(j, 5, 3).getBlock().getType() == Material.AIR) {
-                loc.clone().add(j, 5, 3).getBlock().setType(m);
-                loc.clone().add(j, 5, 3).getBlock().setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-            }
-        }
-        for (int j = -1; j < 2; j++) {
-            if (loc.clone().add(j, 5, -3).getBlock().getType() == Material.AIR) {
-                loc.clone().add(j, 5, -3).getBlock().setType(m);
-                loc.clone().add(j, 5, -3).getBlock().setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-            }
-        }
-        for (int i = -2; i < 3; i+=4) {
-            for (int j = -2; j < 3; j+=4) {
-                for (int k = -1; k < 2; k++) {
-                    if (loc.clone().add(i, 5 + k, j).getBlock().getType() == Material.AIR) {
-                        loc.clone().add(i, 5 + k, j).getBlock().setType(m);
-                        loc.clone().add(i, 5 + k, j).getBlock().setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                    }
-                }
-            }
-        }
+        locations.sort((a,b) -> {
+            if (a.getY() != b.getY()) return Double.compare(a.getY(), b.getY());
+            if (a.getX() != b.getX()) return Double.compare(a.getX(), b.getX());
+            return Double.compare(a.getZ(), b.getZ());
+        });
 
-        for (int i = -3; i < 4; i+=6) {
-            for (int j = -1; j < 2; j+=2) {
-                for (int k = -1; k < 2; k++) {
-                    if (loc.clone().add(i, 5 + k, j).getBlock().getType() == Material.AIR) {
-                        loc.clone().add(i, 5 + k, j).getBlock().setType(m);
-                        loc.clone().add(i, 5 + k, j).getBlock().setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
+        int N = 4; // blocks per tick
+        final int[] index = {0};
+        BukkitRunnable task = new BukkitRunnable() {
+            @Override
+            public void run() {
+                boolean x = dir == BlockFace.EAST || dir == BlockFace.WEST;
+                int dx = dir == BlockFace.EAST ? -1 : (dir == BlockFace.WEST ? 1 : (dir == BlockFace.NORTH ? 1 : -1));
+
+                for (int i = 0; i < N; i++) {
+                    if (index[0] >= locations.size()) break;
+                    Location l = locations.get(index[0]++);
+                    Location l2 = null;
+                    if (ladders.contains(l)) {
+                        l2 = l;
+                        l = l.clone().add(x ? dx : 0, 0, x ? 0 : dx);
+                    }
+
+                    l.getBlock().setType(m);
+                    l.getBlock().setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
+                    l.getWorld().playSound(l, Sound.ENTITY_CHICKEN_EGG, 10f, 1f);
+
+                    if (l2 != null) {
+                        l2.getBlock().setType(Material.LADDER);
+                        Ladder data = (Ladder) l2.getWorld().getBlockAt(l2).getBlockData();
+                        data.setFacing(dir);
+                        l2.getWorld().getBlockAt(l2).setBlockData(data);
+                        l2.getWorld().getBlockAt(l2).setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
                     }
                 }
+
+                if (index[0] >= locations.size()) cancel();
             }
-        }
-        for (int i = -3; i < 4; i+=6) {
-            for (int j = -1; j < 2; j+=2) {
-                for (int k = -1; k < 2; k++) {
-                    if (loc.clone().add(j, 5 + k, i).getBlock().getType() == Material.AIR) {
-                        loc.clone().add(j, 5 + k, i).getBlock().setType(m);
-                        loc.clone().add(j, 5 + k, i).getBlock().setMetadata("bedwars", new FixedMetadataValue(main, "shop"));
-                    }
-                }
-            }
-        }
+        };
+        task.runTaskTimer(main, 0L, 1L);
     }
 
     private void makeBridge(BlockFace face, Material material) {

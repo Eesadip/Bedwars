@@ -6,3 +6,4 @@ commands:
   bw:
     aliases: ['bedwars']
   shout:
+  tower:

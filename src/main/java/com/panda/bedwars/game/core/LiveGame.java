@@ -225,7 +225,7 @@ public class LiveGame {
 
     private void spawnDiaGens() {
         for (Location loc : diaGenLocs) {
-            Generator diaGen = new DiamondGenerator("", VarUtil.getDiamondCooldown(), loc, game.getMain());
+            Generator diaGen = new DiamondGenerator(VarUtil.getDiamondCooldown(), loc, game.getMain());
             diaGens.add(diaGen);
             diaGen.genRun();
         }
@@ -233,7 +233,7 @@ public class LiveGame {
 
     private void spawnEmGens() {
         for (Location loc : emGenLocs) {
-            Generator emGen = new EmeraldGenerator("", VarUtil.getEmeraldCooldown(), loc, game.getMain());
+            Generator emGen = new EmeraldGenerator(VarUtil.getEmeraldCooldown(), loc, game.getMain());
             emGens.add(emGen);
             emGen.genRun();
         }
@@ -361,6 +361,7 @@ public class LiveGame {
             Bukkit.broadcastMessage("§6" + player.getName() + " has won!");
             player.sendTitle("§6VICTORY", "", 0, 100, 0);
             player.sendMessage("§aYou have won the game!");
+            player.getInventory().clear();
         }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(game.getMain(), () -> {

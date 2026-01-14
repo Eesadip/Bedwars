@@ -3,6 +3,7 @@ package com.panda.bedwars;
 import com.panda.bedwars.commands.BedwarsCommand;
 import com.panda.bedwars.commands.BedwarsCompleter;
 import com.panda.bedwars.commands.ShoutCommand;
+import com.panda.bedwars.commands.TowerCommand;
 import com.panda.bedwars.game.VarUtil;
 import com.panda.bedwars.game.actors.shop.ShopData;
 import com.panda.bedwars.game.core.Game;
@@ -26,6 +27,7 @@ public final class Bedwars extends JavaPlugin {
         getCommand("bw").setExecutor(new BedwarsCommand(this));
         getCommand("shout").setExecutor(new ShoutCommand()); // Fix the command after implementing the game logic
         getCommand("bw").setTabCompleter(new BedwarsCompleter());
+        getCommand("tower").setExecutor(new TowerCommand());
 
         Bukkit.getPluginManager().registerEvents(new ConnectionListener(this), this);
         Bukkit.getPluginManager().registerEvents(new BlockListener(this), this);
