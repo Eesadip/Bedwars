@@ -32,11 +32,11 @@ public class LiveGame {
     private List<Location> emGenLocs;
     private List<Generator> emGens;
     private Map<UUID, Shop> shops;
-    private Map<UUID, String> armourMap;
+    private Map<UUID, ArmorType> armourMap;
     private Map<String, Boolean> bedBroken;
     private List<UUID> respawning;
 
-    LiveGame(Game game) {
+    public LiveGame(Game game) {
         this.game = game;
         game.setState(Game.State.LIVE);
         teams = new HashMap<>();
@@ -62,9 +62,15 @@ public class LiveGame {
     }
 
     void removePlayer(Player player) {
-        teamGens.get(getTeam(player)).genStop();
-        teams.remove(getTeam(player));
-        teams.remove(getTeam(player));
+        String team = getTeam(player);
+        if (!team.isEmpty()) {
+            teamGens.get(team).genStop();
+            teams.remove(team);
+        }
+
+        if (teams.isEmpty()) {
+            endGame();
+        }
     }
 
     private void assignTeams() {
@@ -89,7 +95,7 @@ public class LiveGame {
             player.setHealth(20);
             player.getEnderChest().clear();
 
-            armourMap.put(player.getUniqueId(), "leather");
+            armourMap.put(player.getUniqueId(), ArmorType.LEATHER);
             setArmor(player, s.toLowerCase());
 
             bedBroken.put(s.toLowerCase(), false);
@@ -109,7 +115,6 @@ public class LiveGame {
 
     private void setArmor(Player player, String color) {
         int r = 0, g = 0, b = 0;
-
         switch (color) {
             case "red":
                 r = 255;
@@ -181,39 +186,28 @@ public class LiveGame {
         boots.setItemMeta(bootMeta);
         player.getInventory().setBoots(boots);
 
-        if (armourMap.get(player.getUniqueId()).equalsIgnoreCase("chainmail")) {
-            ItemStack is = new ItemStack(Material.CHAINMAIL_LEGGINGS);
-            ItemMeta meta = leg.getItemMeta();
-            meta.setUnbreakable(true);
-            is.setItemMeta(meta);
-            player.getInventory().setLeggings(is);
+        ItemStack legMaterial = null, bootMaterial = null;
+        if (armourMap.get(player.getUniqueId()) == ArmorType.CHAINMAIL) {
+            legMaterial = new ItemStack(Material.CHAINMAIL_LEGGINGS);
+            bootMaterial = new ItemStack(Material.CHAINMAIL_BOOTS);
+        } else if (armourMap.get(player.getUniqueId()) == ArmorType.IRON) {
+            legMaterial = new ItemStack(Material.IRON_LEGGINGS);
+            bootMaterial = new ItemStack(Material.IRON_BOOTS);
+        } else if (armourMap.get(player.getUniqueId()) == ArmorType.DIAMOND) {
+            legMaterial = new ItemStack(Material.DIAMOND_LEGGINGS);
+            bootMaterial = new ItemStack(Material.DIAMOND_BOOTS);
+        }
 
-            is = new ItemStack(Material.CHAINMAIL_BOOTS);
+        if (legMaterial != null) {
+            ItemMeta meta = legMaterial.getItemMeta();
             meta.setUnbreakable(true);
-            is.setItemMeta(meta);
-            player.getInventory().setBoots(is);
-        } else if (armourMap.get(player.getUniqueId()).equalsIgnoreCase("iron")) {
-            ItemStack is = new ItemStack(Material.IRON_LEGGINGS);
-            ItemMeta meta = leg.getItemMeta();
-            meta.setUnbreakable(true);
-            is.setItemMeta(meta);
-            player.getInventory().setLeggings(is);
+            legMaterial.setItemMeta(meta);
+            player.getInventory().setLeggings(legMaterial);
 
-            is = new ItemStack(Material.IRON_BOOTS);
+            meta = bootMaterial.getItemMeta();
             meta.setUnbreakable(true);
-            is.setItemMeta(meta);
-            player.getInventory().setBoots(is);
-        } else if (armourMap.get(player.getUniqueId()).equalsIgnoreCase("diamond")) {
-            ItemStack is = new ItemStack(Material.DIAMOND_LEGGINGS);
-            ItemMeta meta = leg.getItemMeta();
-            meta.setUnbreakable(true);
-            is.setItemMeta(meta);
-            player.getInventory().setLeggings(is);
-
-            is = new ItemStack(Material.DIAMOND_BOOTS);
-            meta.setUnbreakable(true);
-            is.setItemMeta(meta);
-            player.getInventory().setBoots(is);
+            bootMaterial.setItemMeta(meta);
+            player.getInventory().setBoots(bootMaterial);
         }
 
         ItemStack sword = new ItemStack(Material.WOODEN_SWORD);
@@ -293,8 +287,8 @@ public class LiveGame {
         return shops.get(player.getUniqueId());
     }
 
-    public void setArmourType(Player player, String armourName) {
-        armourMap.replace(player.getUniqueId(), armourName.toLowerCase());
+    public void setArmourType(Player player, ArmorType type) {
+        armourMap.replace(player.getUniqueId(), type);
     }
 
     public void setBedBroken(String team, Player destroyer) {
@@ -336,6 +330,7 @@ public class LiveGame {
         player.sendTitle("§cYOU DIED!", "", 0, 60, 10);
         player.teleport(VarUtil.getSpawnLocation().add(4, -14, 0));
         player.setGameMode(GameMode.SPECTATOR);
+
         String team = getTeam(player);
         String t = team.substring(0, 1).toUpperCase() + team.substring(1).toLowerCase();
         Bukkit.broadcastMessage("§f§lTEAM ELIMINATION > " + VarUtil.getTeamColor(game.getMain(), team) + t + " §7team was eliminated!");
@@ -351,6 +346,7 @@ public class LiveGame {
         return bedBroken.get(getTeam(player).toLowerCase()) != null && bedBroken.get(getTeam(player).toLowerCase());
     }
 
+    // Reset everything
     public void endGame() {
         if (teams.size() == 1) {
             UUID uuid = UUID.randomUUID();
@@ -392,8 +388,8 @@ public class LiveGame {
             respawning.clear();
 
             game.removeAll();
-        }, 100);
+        }, teams.size() == 1 ? 100 : 40);
     }
 
-    public String getArmourType(Player player) { return armourMap.get(player.getUniqueId()); }
+    public ArmorType getArmourType(Player player) { return armourMap.get(player.getUniqueId()); }
 }

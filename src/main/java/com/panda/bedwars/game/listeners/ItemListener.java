@@ -20,10 +20,14 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -37,6 +41,24 @@ public class ItemListener implements Listener {
     public ItemListener(Bedwars main) {
         this.main = main;
         locationList = new ArrayList<>();
+    }
+
+    @EventHandler
+    public void onDrink(PlayerItemConsumeEvent e) {
+        Player player = e.getPlayer();
+        ItemStack item = e.getItem();
+        if (item == null || item.getType() != Material.POTION) return;
+
+        if (main.getGame().isLive() && main.getGame().getPlayers().contains(player.getUniqueId())) {
+            e.setCancelled(true);
+            ItemStack hand = player.getInventory().getItemInMainHand();
+            hand.setAmount(hand.getAmount() - 1);
+
+            PotionMeta pm = (PotionMeta) item.getItemMeta();
+            PotionEffectType type = pm.getBasePotionData().getType().getEffectType();
+            PotionEffect pe = new PotionEffect(type, (type == PotionEffectType.INVISIBILITY ? 30 : 45) * 20, type == PotionEffectType.JUMP ? 4 : 0);
+            player.addPotionEffect(pe);
+        }
     }
 
     @EventHandler

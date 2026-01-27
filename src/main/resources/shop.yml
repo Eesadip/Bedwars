@@ -105,12 +105,15 @@ quick-buy:
       - "&7Cost: &64 Gold"
   12:
     material: "POTION"
-    name: "&cInvisibility Potion"
-    cost: 3
+    name: "&cInvisibility Potion (30 seconds)"
+    cost: 1
     currency: "EMERALD"
     amount: 1
+    effects: "INVISIBILITY"
     lore:
-      - "&7Cost: &23 Emerald"
+      - "&7Cost: &21 Emerald"
+      - "\n"
+      - "&1Complete Invisibility (0:30)"
   13:
     material: "WATER_BUCKET"
     name: "&cWater Bucket"
@@ -375,3 +378,81 @@ tools:
       EFFICIENCY: 3
     lore:
       - "&7Cost: &22 Emerald"
+
+ranged:
+  0:
+    material: "ARROW"
+    name: "&cArrow"
+    cost: 2
+    currency: "GOLD_INGOT"
+    amount: 6
+    lore:
+      - "&7Cost: &62 Gold"
+  1:
+    material: "BOW"
+    name: "&cBow"
+    cost: 12
+    currency: "GOLD_INGOT"
+    amount: 1
+    lore:
+      - "&7Cost: &612 Gold"
+  2:
+    material: "BOW"
+    name: "&cBow (Power I)"
+    cost: 20
+    currency: "GOLD_INGOT"
+    amount: 1
+    enchantments:
+      POWER: 1
+    lore:
+      - "&7Cost: &620 Gold"
+  3:
+    material: "BOW"
+    name: "&cBow (Power I, Punch I)"
+    cost: 6
+    currency: "EMERALD"
+    amount: 1
+    enchantments:
+      POWER: 1
+      PUNCH: 1
+    lore:
+      - "&7Cost: &26 Emerald"
+
+potions:
+  0:
+    material: "POTION"
+    name: "&cSpeed II Potion (45 seconds)"
+    cost: 1
+    currency: "EMERALD"
+    amount: 1
+    effects: "SPEED"
+    lore:
+      - "&7Cost: &21 Emerald"
+      - "\n"
+      - "&1Speed II (0:45)"
+  1:
+    material: "POTION"
+    name: "&cJump V Potion (45 seconds)"
+    cost: 1
+    currency: "EMERALD"
+    amount: 1
+    effects: "JUMP"
+    lore:
+      - "&7Cost: &21 Emerald"
+      - "\n"
+      - "&1Jump Boost V (0:45)"
+  2:
+    material: "POTION"
+    name: "&cInvisibility Potion (30 seconds)"
+    cost: 1
+    currency: "EMERALD"
+    amount: 1
+    effects: "INVISIBILITY"
+    lore:
+      - "&7Cost: &21 Emerald"
+      - "\n"
+      - "&1Complete Invisibility (0:30)"
+
+utility:
+
+rotating:

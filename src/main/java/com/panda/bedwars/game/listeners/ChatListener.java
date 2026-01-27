@@ -20,7 +20,7 @@ public class ChatListener implements Listener {
             e.setCancelled(true);
             String msg = VarUtil.getTeamColor(main, main.getGame().getLiveGame().getTeam(e.getPlayer())) + "[" + main.getGame().getLiveGame().getTeam(e.getPlayer()).toUpperCase()
                     + "] " + e.getPlayer().getName() + "§f: " + e.getMessage();
-            Bukkit.broadcastMessage(msg);
+            Bukkit.getOnlinePlayers().forEach(player -> {player.sendMessage(msg);});
         }
     }
 }

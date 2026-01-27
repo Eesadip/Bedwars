@@ -1,6 +1,7 @@
 package com.panda.bedwars.game.actors.shop;
 
 import com.panda.bedwars.Bedwars;
+import com.panda.bedwars.game.actors.shop.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -115,6 +116,70 @@ public class ShopData {
         ConfigurationSection section = configuration.getConfigurationSection("tools");
         if (section == null) {
             System.out.println("[!] Tool items not set up!");
+            return null;
+        }
+
+        for (String key : section.getKeys(false)) {
+            ConfigurationSection item = section.getConfigurationSection(key);
+            items.add(ItemBuilder.getItem(item));
+        }
+
+        return items;
+    }
+
+    public static List<ItemStack> getRangedItems() {
+        List<ItemStack> items = new ArrayList<>();
+        ConfigurationSection section = configuration.getConfigurationSection("ranged");
+        if (section == null) {
+            System.out.println("[!] Ranged items not set up!");
+            return null;
+        }
+
+        for (String key : section.getKeys(false)) {
+            ConfigurationSection item = section.getConfigurationSection(key);
+            items.add(ItemBuilder.getItem(item));
+        }
+
+        return items;
+    }
+
+    public static List<ItemStack> getPotionItems() {
+        List<ItemStack> items = new ArrayList<>();
+        ConfigurationSection section = configuration.getConfigurationSection("potions");
+        if (section == null) {
+            System.out.println("[!] Potion items not set up!");
+            return null;
+        }
+
+        for (String key : section.getKeys(false)) {
+            ConfigurationSection item = section.getConfigurationSection(key);
+            items.add(ItemBuilder.getItem(item));
+        }
+
+        return items;
+    }
+
+    public static List<ItemStack> getUtilityItems() {
+        List<ItemStack> items = new ArrayList<>();
+        ConfigurationSection section = configuration.getConfigurationSection("utility");
+        if (section == null) {
+            System.out.println("[!] Utility items not set up!");
+            return null;
+        }
+
+        for (String key : section.getKeys(false)) {
+            ConfigurationSection item = section.getConfigurationSection(key);
+            items.add(ItemBuilder.getItem(item));
+        }
+
+        return items;
+    }
+
+    public static List<ItemStack> getRotatingItems() {
+        List<ItemStack> items = new ArrayList<>();
+        ConfigurationSection section = configuration.getConfigurationSection("rotating");
+        if (section == null) {
+            System.out.println("[!] Rotating items not set up!");
             return null;
         }
 

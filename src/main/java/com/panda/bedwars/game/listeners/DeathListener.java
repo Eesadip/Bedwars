@@ -62,7 +62,6 @@ public class DeathListener implements Listener {
                     Bukkit.broadcastMessage(VarUtil.getTeamColor(main.getGame().getMain(), main.getGame().getLiveGame().getTeam(player)) + player.getName()
                         + " §7was eliminated. §b§lFINAL KILL");
                 main.getGame().getLiveGame().finalKill(player);
-                return;
             } else {
                 if (e.getEntity().getLocation().getY() <= -15) {
                     Bukkit.broadcastMessage(VarUtil.getTeamColor(main.getGame().getMain(), main.getGame().getLiveGame().getTeam(player)) + player.getName()

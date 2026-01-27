@@ -17,6 +17,7 @@ public class RespawnTimer extends BukkitRunnable {
         this.game = game;
         runTaskTimer(game.getMain(), 0, 20);
         player = Bukkit.getPlayer(uuid);
+        player.getActivePotionEffects().forEach(effect -> {player.removePotionEffect(effect.getType());});
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.panda.bedwars.game.core;
 import com.panda.bedwars.Bedwars;
 import com.panda.bedwars.game.VarUtil;
 import com.panda.bedwars.map.FileUtil;
-import com.panda.bedwars.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -34,8 +33,7 @@ public class Game {
     private LiveGame liveGame;
     private boolean loading;
 
-    private GameMap map;
-    private File source;
+    private File source; // Source file for the game map (stored in the gameMaps folder)
 
     public Game(Bedwars main) {
         this.main = main;
@@ -74,6 +72,8 @@ public class Game {
         player.setLevel(0);
         player.setExp(0);
         player.setGameMode(GameMode.ADVENTURE);
+        player.setHealth(20);
+        player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
 
         bar.addPlayer(player);
         joinBoard.getTeam("players").setSuffix("§f" + players.size() + "/" + VarUtil.getMaxPlayers());
@@ -81,8 +81,10 @@ public class Game {
             startTask();
         player.setScoreboard(joinBoard);
 
-        Bukkit.broadcastMessage("§8§k" + player.getName() + "§e has joined the game (§b" +
-                getPlayers().size() + "§e/§b" + VarUtil.getMaxPlayers() + "§e)!");
+        players.forEach(uuid -> {
+            Bukkit.getPlayer(uuid).sendMessage("§8§k" + player.getName() + "§e has joined the game (§b" +
+                    getPlayers().size() + "§e/§b" + VarUtil.getMaxPlayers() + "§e)!"); ;
+        });
     }
 
     public void removePlayer(Player player) {
@@ -111,6 +113,7 @@ public class Game {
         player.sendMessage(ChatColor.RED + "You have left the game!");
         player.teleport(new Location(Bukkit.getWorld("world"), 350, 70, 360));
         player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
 
         if (players.isEmpty())
             task.cancel();
@@ -149,7 +152,7 @@ public class Game {
             try {
                 FileUtil.copy(source, map);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("[!] Error while loading/reloading map!");
             }
             world = Bukkit.createWorld(new WorldCreator(VarUtil.getWorldName()));
             world.setAutoSave(false);
@@ -167,6 +170,13 @@ public class Game {
         }
 
         createJoinBoard();
+    }
+
+    public void shout(String msg) {
+        String message = "§6[SHOUT] " + msg;
+        players.forEach(uuid -> {
+            Bukkit.getPlayer(uuid).sendMessage(message);
+        });
     }
 
     /* Utility methods for the class */
